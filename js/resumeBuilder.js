@@ -1,10 +1,9 @@
 // resumeBuilder.js
 
 // This contains data objects specific to my bio, skills and projects 
-
-
-var skills = ["Java", "C++", "Spring Framework", "Writing", "HTML5", "CSS3", "JavaScript",  "R", "Teaching"];
-
+// Added extra features:
+//	** use of the tipped.js library to add additional information on each skill
+//	** added links for each project image
 
 var bio = {
 	"name" : "Lorraine Figueroa",
@@ -18,7 +17,24 @@ var bio = {
 		"twitter" : "@nyguerrillagirl",
 		"location" : "Philadelphia"
 	},
-	"skills" : skills,
+	"skills" : ["Java", "C++", "Spring Framework", "Oracle", "HTML", "CSS", "JavaScript",  "R", "SDL"],
+	/* Added to 'show' more information when someone hovers over a skill */
+	"skillsInfo" : ["Over 10 years experience building Java Applications and Network Tools",
+					"Over 20 years experience in C and C++ applications (video game samples)",
+					"Over 4 years experience with STS and Spring Web Application Tools",
+					"Over 15 years experience with Oracle Database Development (SQL, SQLPlus, SQLDeveloper)",
+					"Knowledge with building HTML-based web pages and applications",
+					"Knowledge in using CSS to enhance web pages with style",
+					"Knowledge building web applications with JavaScript and popular libraries",
+					"R Programming for Statistical Analysis of Data",
+					"Simple DirectMedia Library (SDL) video game applications"],
+	"attachInfoTips" :  function () {
+			for (var i=0; i < bio.skillsInfo.length; i++) {
+ 				Tipped.create('.skillsInfo' +i, bio.skillsInfo[i], { position: 'topleft' });
+			}	
+
+
+	},
 	"display" : function() {
 		// Display the name and title
 		var formattedName = HTMLheaderName.replace("%data%", "Lorraine Figueroa");
@@ -55,9 +71,12 @@ var bio = {
 		if (bio.skills && (bio.skills.length > 0)) {
 			// append the skills to the page
 			$("#header").append(HTMLskillsStart);
-
 			for (var i=0; i < bio.skills.length; i++) {
-				$("#skills").append(HTMLskills.replace("%data%", bio.skills[i]));
+				var skillElement = HTMLskills.replace("%data%", bio.skills[i]);
+				// attach class to be used to associate skill info tip after page loads
+				var classSkillsInfo = "skillsInfo" + i;
+				skillElement = skillElement.replace("%info%", classSkillsInfo);
+				$("#skills").append(skillElement);
 			}	
 
 		}
@@ -203,7 +222,24 @@ var projects= {
 		"dates" : "12/2014 - Present",
 		"description" : "Taking a series of courses to learn tools and technology for web development",
 		"images" : [
-			"images/HTML5_Logo_512.png", "images/css3-logo.png", "images/javascript-logo-png.png", "images/bootstrap.png", "images/git-logo.png", "images/GitHub.jpg"
+			{	src: "images/HTML5_Logo_512.png",
+			   	link:  "http://en.wikipedia.org/wiki/HTML5",
+			   	alt: "HTML5 Logo"}, 
+			{	src: "images/css3-logo.png",
+				link: "http://www.w3schools.com/css/css3_intro.asp",
+				alt: "CSS3 Logo"}, 
+			{	src: "images/javascript-logo-png.png",
+				link: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+				alt: "JavaScript Logo"}, 
+			{	src: "images/bootstrap.png",
+				link: "http://getbootstrap.com/",
+				alt: "Bootstrap Logo"}, 
+			{	src: "images/git-logo.png",
+				link: "http://git-scm.com/",
+				alt: "Git Logo" }, 
+			{	src: "images/GitHub.jpg",
+				link: "https://github.com/",
+				alt: "GitHub Logo" }
 		]
 	},
 	{
@@ -211,14 +247,33 @@ var projects= {
 		"dates" : "12/2014 - Present",
 		"description" : "Taking a series of courses learning tools and technology for Data Science",
 		"images" : [
-			"images/bloomberg.small.horizontal.blue-Coursera.png", "images/R-Programming.png"
+			{ 	src: "images/bloomberg.small.horizontal.blue-Coursera.png",
+				link: "https://www.coursera.org/specialization/jhudatascience/1",
+				alt: "Coursera Data Science Logo"}, 
+			{	src: "images/R-Programming.png",
+				link: "http://www.r-project.org/",
+				alt: "R Programming Logo"}
 		]
 	},
 	{
 		"title" : "Exploring Mini-Languages to Teach kids how to code",
 		"dates" : "06/2014 - Present",
 		"description" : "Hosting Talks on Learning to Make Games using Java, Scratch, Alice, Kodu, Karel The Robot",
-		"images" : ["images/JavaLogo.png", "images/ScratchBlogLogo.jpg", "images/alice3_logo.png", "images/kodu2.jpg", "images/KarelLogo.jpg"]
+		"images" : [{ 	src:"images/JavaLogo.png",
+						link: "https://www.java.com/en/",
+						alt: "Java Logo"}, 
+					{	src:"images/ScratchBlogLogo.jpg",
+						link: "http://scratch.mit.edu/",
+						alt: "Scratch Programming Logo"}, 
+					{	src: "images/alice3_logo.png",
+						link: "http://www.alice.org/index.php",
+						alt: "Alice 3 Logog"}, 
+					{	src: "images/kodu2.jpg",
+						link: "http://www.kodugamelab.com/",
+						alt: "Kodu Logo"}, 
+					{ 	src: "images/KarelLogo.jpg",
+						link: "http://en.wikipedia.org/wiki/Karel_%28programming_language%29",
+						alt: "Karel the Robot Logo"}]
 	}
 	],
 	"display" : function() {
@@ -230,9 +285,11 @@ var projects= {
 					$(".project-entry:last").append(projectTitle);
 					$(".project-entry:last").append(projectDates);
 					$(".project-entry:last").append(projectDescription);	
-					// process each image associated with this project
+					// process each image associated with this project (extra: attach web link and alt attribute)
 					for (imageIterator in projects.projects[projectIterator].images) {
-						var aProjectImage = HTMLprojectImage.replace("%data%", projects.projects[projectIterator].images[imageIterator]);
+						var aProjectImage = HTMLprojectImage.replace("%data%", projects.projects[projectIterator].images[imageIterator].src);
+						aProjectImage = aProjectImage.replace("%link%", projects.projects[projectIterator].images[imageIterator].link);
+						aProjectImage = aProjectImage.replace("%altTag%", projects.projects[projectIterator].images[imageIterator].alt);						
 						$(".project-entry:last").append(aProjectImage);
 					}
 				}

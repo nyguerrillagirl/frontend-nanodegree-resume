@@ -27,7 +27,7 @@ var HTMLbioPic = '<img src="%data%" class="biopic">';
 var HTMLWelcomeMsg = '<span class="welcome-message">%data%</span>';
 
 var HTMLskillsStart = '<h3 id="skillsH3">Skills at a Glance:</h3><ul id="skills" class="flex-box"></ul>';
-var HTMLskills = '<li class="flex-item"><span class="white-text">%data%</span></li>';
+var HTMLskills = '<li class="flex-item"><span class="white-text %info%">%data%</span></li>';
 
 var HTMLworkStart = '<div class="work-entry"></div>';
 var HTMLworkEmployer = '<a href="#">%data%';
@@ -40,7 +40,7 @@ var HTMLprojectStart = '<div class="project-entry"></div>';
 var HTMLprojectTitle = '<a href="#">%data%</a>';
 var HTMLprojectDates = '<div class="date-text">%data%</div>';
 var HTMLprojectDescription = '<p><br>%data%</p>';
-var HTMLprojectImage = '<img src="%data%">';
+var HTMLprojectImage = '<a class="aImageLink" href="%link%"><img src="%data%" alt="%altTag%"></a>';
 
 var HTMLschoolStart = '<div class="education-entry"></div>';
 var HTMLschoolName = '<a href="#">%data%';
@@ -67,7 +67,10 @@ $(document).ready(function() {
     var iName = inName(name) || function(){};
     $('#name').html(iName);  
   });
-});
+  if (bio) {
+    bio.attachInfoTips();
+  }
+ });
 
 /*
 The next few lines about clicks are for the Collecting Click Locations quiz in Lesson 2.

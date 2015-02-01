@@ -79,6 +79,13 @@ a {
   display: block;
 }
 
+.aImageLink {
+   color: #1199C3;
+  text-decoration: none;
+  margin-top: 10px;
+  display: inline;
+ 
+}
 .welcome-message {
   font-style: italic;
   font-size: 18px;
