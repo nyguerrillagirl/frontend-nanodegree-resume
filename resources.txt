@@ -13,4 +13,7 @@ Online Resources:
 	- http://jquery.com/
 	- http://eloquentjavascript.net/
 
+3. JavaScript Libraries Used
+
+	- http://www.tippedjs.com/ - used to provide interactivity to the page.
 	
